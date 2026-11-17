@@ -4,6 +4,8 @@
   .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(28px, 3.5vw, 48px); }
 }
 .hero-film { margin: 0; min-width: 0; }
+.hero-film-stage { position: relative; }
+.hero-film-cue { position: absolute; inset: auto 12px 12px; width: fit-content; max-width: calc(100% - 24px); padding: .5rem .75rem; background: #102442; color: white; border-radius: 5px; font-size: clamp(.85rem, 1.4vw, 1rem); font-weight: 700; }
 .hero-film video { aspect-ratio: 16 / 9; object-fit: contain; filter: none; border-radius: 8px; }
 .hero-film figcaption { margin-top: .65rem; color: #405875; font-size: .9rem; }
 </style><style>
@@ -20,8 +22,22 @@
 }
 </style></head>
 <body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html?v=chat-view">Vendor review</a><a href="#chat">TPRM assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1>Build your third-party risk program.</h1><p>Interpret third-party risk management guidance and turn it into practical policies, controls, and review steps for your financial institution.</p><a class="button" href="review.html?v=chat-view">Try the vendor review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
-  <video autoplay muted loop playsinline aria-label="Bank risk professionals reviewing a third-party provider"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
-  <figcaption>Third-party due diligence · Bank risk team</figcaption>
+  <div class="hero-film-stage">
+    <video autoplay muted loop playsinline aria-label="Bank risk professionals reviewing a third-party provider"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
+    <div class="hero-film-cue" aria-hidden="true">Identify the vendor’s risks</div>
+  </div>
+  <figcaption>Assess data sensitivity and business impact, then turn the findings into a vendor review plan with evidence requests and controls.</figcaption>
+  <script>
+    const heroVideo = document.querySelector('.hero-film video');
+    const heroCue = document.querySelector('.hero-film-cue');
+    heroVideo.addEventListener('timeupdate', () => {
+      const progress = heroVideo.currentTime / heroVideo.duration;
+      const cue = progress < 1 / 3 ? 'Identify the vendor’s risks'
+        : progress < 2 / 3 ? 'Match risks to interagency guidance'
+        : 'Build a tailored review plan';
+      if (heroCue.textContent !== cue) heroCue.textContent = cue;
+    });
+  </script>
 </figure></section><section class="summary"><p class="eyebrow">THE WORKFLOW</p><h2>From regulatory guidance to program controls</h2><div class="grid"><article><h3>Define your program</h3><p>Set ownership, identify third-party relationships, and decide how to prioritize reviews by risk.</p></article><article><h3>Build due diligence and contracting</h3><p>Translate expectations into evidence requests, approval steps, and contract provisions that reflect the relationship’s risk.</p></article><article><h3>Plan ongoing monitoring</h3><p>Set review intervals, define escalation triggers, and document how your team responds to incidents and material changes.</p></article></div></section><section class="summary" aria-labelledby="guidance-heading">
   <h2 id="guidance-heading">Interagency guidance for banks</h2>
   <p><strong>Final guidance.</strong> The Federal Reserve, FDIC, and OCC issued joint guidance in June 2023. It covers planning, due diligence and selection, contract negotiation, ongoing monitoring, and termination. Governance, independent review, and documentation support the full lifecycle.</p>
