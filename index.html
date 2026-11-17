@@ -19,7 +19,7 @@
   .chat iframe { height: 380px; }
 }
 </style></head>
-<body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html?v=risk-options">Vendor review</a><a href="#chat">TPRM assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1>Build your third-party risk program.</h1><p>Interpret third-party risk management guidance and turn it into practical policies, controls, and review steps for your financial institution.</p><a class="button" href="review.html?v=risk-options">Try the vendor review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
+<body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html?v=chat-view">Vendor review</a><a href="#chat">TPRM assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1>Build your third-party risk program.</h1><p>Interpret third-party risk management guidance and turn it into practical policies, controls, and review steps for your financial institution.</p><a class="button" href="review.html?v=chat-view">Try the vendor review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
   <video autoplay muted loop playsinline aria-label="Bank risk professionals reviewing a third-party provider"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
   <figcaption>Third-party due diligence · Bank risk team</figcaption>
 </figure></section><section class="summary"><p class="eyebrow">THE WORKFLOW</p><h2>From regulatory guidance to program controls</h2><div class="grid"><article><h3>Define your program</h3><p>Set ownership, identify third-party relationships, and decide how to prioritize reviews by risk.</p></article><article><h3>Build due diligence and contracting</h3><p>Translate expectations into evidence requests, approval steps, and contract provisions that reflect the relationship’s risk.</p></article><article><h3>Plan ongoing monitoring</h3><p>Set review intervals, define escalation triggers, and document how your team responds to incidents and material changes.</p></article></div></section><section class="summary" aria-labelledby="guidance-heading">
@@ -42,16 +42,15 @@
   </details>
   </div>
   <div class="assistant-panel">
-  <button type="button" class="button" id="open-assistant">Open assistant</button>
+  <iframe id="assistant-frame" title="TPRM guidance assistant" data-src="https://share.chatling.ai/s/bdZsndnXXYo1NCs"></iframe>
   <script>
-    const launcher = document.getElementById('open-assistant');
-    launcher.addEventListener('click', () => {
-      const frame = document.createElement('iframe');
-      frame.title = 'TPRM guidance assistant';
-      frame.src = 'https://share.chatling.ai/s/bdZsndnXXYo1NCs';
-      launcher.replaceWith(frame);
-      frame.focus({ preventScroll: true });
-    }, { once: true });
+    const assistantFrame = document.getElementById('assistant-frame');
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      if (entry.intersectionRatio < 0.5) return;
+      visibilityObserver.disconnect();
+      assistantFrame.src = assistantFrame.dataset.src;
+    }, { threshold: 0.5 });
+    visibilityObserver.observe(assistantFrame);
   </script>
   <p><a href="https://share.chatling.ai/s/bdZsndnXXYo1NCs" target="_blank" rel="noopener">Open the assistant in a new tab ↗</a></p>
   </div>
