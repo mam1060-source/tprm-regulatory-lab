@@ -5,9 +5,12 @@
 }
 .hero-film { margin: 0; min-width: 0; }
 .hero-film-stage { position: relative; }
-.hero-demo { position: absolute; inset: 8% 7%; display: grid; align-content: center; gap: 5px; padding: clamp(8px, 1.6vw, 18px); background: #f1f6ff; color: #102442; border: 1px solid #8ca4c5; border-radius: 9px; font-size: clamp(.7rem, 1.3vw, .98rem); line-height: 1.22; }
+.hero-film-stage { container-type: inline-size; }
+.hero-demo { position: absolute; left: 40%; top: 58%; width: 17%; height: 20%; display: grid; align-content: center; gap: .28cqw; padding: .42cqw; overflow: hidden; transform: skewX(14deg); background: #f1f6ff; color: #102442; border: 1px solid #8ca4c5; font-size: 1.02cqw; line-height: 1.05; pointer-events: none; }
+.hero-demo-row b { font-weight: 600; }
+.hero-demo-row b, .hero-demo-row span { white-space: nowrap; }
 .hero-demo strong { font-size: 1.19em; }
-.hero-demo-row { display: flex; justify-content: space-between; gap: .4rem; background: white; border: 1px solid #cfdbec; padding: .35em .5em; border-radius: 4px; }
+.hero-demo-row { display: flex; justify-content: space-between; gap: .15em; background: white; border: 1px solid #cfdbec; padding: .18em .24em; border-radius: 2px; }
 .hero-demo-row span { position: relative; color: #214d80; font-weight: 700; }
 .hero-demo-row.selected { border-color: #2365b0; background: #dceaff; }
 .hero-demo-row.selected span::after { content: "↖"; position: absolute; right: -.65em; bottom: -.7em; color: #081b37; font-size: 1.5em; text-shadow: 1px 1px white; }
@@ -33,9 +36,9 @@
     <video autoplay muted loop playsinline aria-label="Bank review footage with an animated demonstration of vendor risk selections and resulting controls"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
     <div class="hero-demo" aria-hidden="true">
       <strong id="demo-title">Set vendor risk options</strong>
-      <div class="hero-demo-row"><b>Data classification</b><span>Public data ▾</span></div>
-      <div class="hero-demo-row"><b>Business criticality</b><span>Low Impact ▾</span></div>
-      <div class="hero-demo-row"><b>Provider substitutability</b><span>Multiple viable providers ▾</span></div>
+      <div class="hero-demo-row"><b>Data</b><span>Public ▾</span></div>
+      <div class="hero-demo-row"><b>Impact</b><span>Low ▾</span></div>
+      <div class="hero-demo-row"><b>Substitutes</b><span>Multiple ▾</span></div>
       <div class="hero-demo-action">Update review plan →</div>
     </div>
   </div>
@@ -45,15 +48,17 @@
     const demoTitle = document.querySelector('#demo-title');
     const demoRows = [...document.querySelectorAll('.hero-demo-row')];
     const demoAction = document.querySelector('.hero-demo-action');
-    const inputLabels = ['Data classification', 'Business criticality', 'Provider substitutability'];
-    const initialValues = ['Public data ▾', 'Low Impact ▾', 'Multiple viable providers ▾'];
-    const selectedValues = ['Confidential data or PII ▾', 'High Impact ▾', 'Limited viable substitutes ▾'];
-    const planLabels = ['Due diligence', 'Contract negotiation', 'Termination'];
-    const planValues = ['Request data-flow evidence', 'Set recovery commitments', 'Test data export'];
+    const inputLabels = ['Data', 'Impact', 'Substitutes'];
+    const initialValues = ['Public ▾', 'Low ▾', 'Multiple ▾'];
+    const selectedValues = ['Confidential / PII ▾', 'High ▾', 'Limited ▾'];
+    const planLabels = ['Due diligence', 'Contract', 'Exit'];
+    const planValues = ['Data flows', 'Recovery targets', 'Test export'];
     let lastStep = -1;
 
     function updateDemo() {
       const time = heroVideo.currentTime;
+      const initialOffset = Math.max(0, 1 - time / 2.2) * 2.7;
+      demoTitle.parentElement.style.top = (57.6 + initialOffset) + '%';
       const step = time < 0.35 ? 0 : time < 0.9 ? 1 : time < 1.45 ? 2 : time < 2.05 ? 3 : 4;
       if (step === lastStep) return;
       lastStep = step;
