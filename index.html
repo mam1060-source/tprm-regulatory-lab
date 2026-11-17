@@ -5,7 +5,14 @@
 }
 .hero-film { margin: 0; min-width: 0; }
 .hero-film-stage { position: relative; }
-.hero-film-cue { position: absolute; inset: auto 12px 12px; width: fit-content; max-width: calc(100% - 24px); padding: .5rem .75rem; background: #102442; color: white; border-radius: 5px; font-size: clamp(.85rem, 1.4vw, 1rem); font-weight: 700; }
+.hero-demo { position: absolute; inset: 8% 7%; display: grid; align-content: center; gap: 5px; padding: clamp(8px, 1.6vw, 18px); background: #f1f6ff; color: #102442; border: 1px solid #8ca4c5; border-radius: 9px; font-size: clamp(.7rem, 1.3vw, .98rem); line-height: 1.22; }
+.hero-demo strong { font-size: 1.19em; }
+.hero-demo-row { display: flex; justify-content: space-between; gap: .4rem; background: white; border: 1px solid #cfdbec; padding: .35em .5em; border-radius: 4px; }
+.hero-demo-row span { position: relative; color: #214d80; font-weight: 700; }
+.hero-demo-row.selected { border-color: #2365b0; background: #dceaff; }
+.hero-demo-row.selected span::after { content: "↖"; position: absolute; right: -.65em; bottom: -.7em; color: #081b37; font-size: 1.5em; text-shadow: 1px 1px white; }
+.hero-demo-action { background: #194b82; color: white; padding: .4em .65em; border-radius: 4px; width: fit-content; }
+.hero-demo-plan { color: #194b82; }
 .hero-film video { aspect-ratio: 16 / 9; object-fit: contain; filter: none; border-radius: 8px; }
 .hero-film figcaption { margin-top: .65rem; color: #405875; font-size: .9rem; }
 </style><style>
@@ -23,20 +30,46 @@
 </style></head>
 <body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html?v=chat-view">Vendor review</a><a href="#chat">TPRM assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1>Build your third-party risk program.</h1><p>Interpret third-party risk management guidance and turn it into practical policies, controls, and review steps for your financial institution.</p><a class="button" href="review.html?v=chat-view">Try the vendor review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
   <div class="hero-film-stage">
-    <video autoplay muted loop playsinline aria-label="Bank risk professionals reviewing a third-party provider"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
-    <div class="hero-film-cue" aria-hidden="true">Identify the vendor’s risks</div>
+    <video autoplay muted loop playsinline aria-label="Bank review footage with an animated demonstration of vendor risk selections and resulting controls"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
+    <div class="hero-demo" aria-hidden="true">
+      <strong id="demo-title">Set vendor risk options</strong>
+      <div class="hero-demo-row"><b>Data classification</b><span>Public data ▾</span></div>
+      <div class="hero-demo-row"><b>Business criticality</b><span>Low Impact ▾</span></div>
+      <div class="hero-demo-row"><b>Provider substitutability</b><span>Multiple viable providers ▾</span></div>
+      <div class="hero-demo-action">Update review plan →</div>
+    </div>
   </div>
-  <figcaption>Assess data sensitivity and business impact, then turn the findings into a vendor review plan with evidence requests and controls.</figcaption>
+  <figcaption>Watch confidential data, high business impact, and limited substitutes produce a critical activity review.</figcaption>
   <script>
     const heroVideo = document.querySelector('.hero-film video');
-    const heroCue = document.querySelector('.hero-film-cue');
-    heroVideo.addEventListener('timeupdate', () => {
-      const progress = heroVideo.currentTime / heroVideo.duration;
-      const cue = progress < 1 / 3 ? 'Identify the vendor’s risks'
-        : progress < 2 / 3 ? 'Match risks to interagency guidance'
-        : 'Build a tailored review plan';
-      if (heroCue.textContent !== cue) heroCue.textContent = cue;
-    });
+    const demoTitle = document.querySelector('#demo-title');
+    const demoRows = [...document.querySelectorAll('.hero-demo-row')];
+    const demoAction = document.querySelector('.hero-demo-action');
+    const inputLabels = ['Data classification', 'Business criticality', 'Provider substitutability'];
+    const initialValues = ['Public data ▾', 'Low Impact ▾', 'Multiple viable providers ▾'];
+    const selectedValues = ['Confidential data or PII ▾', 'High Impact ▾', 'Limited viable substitutes ▾'];
+    const planLabels = ['Due diligence', 'Contract negotiation', 'Termination'];
+    const planValues = ['Request data-flow evidence', 'Set recovery commitments', 'Test data export'];
+    let lastStep = -1;
+
+    function updateDemo() {
+      const time = heroVideo.currentTime;
+      const step = time < 0.35 ? 0 : time < 0.9 ? 1 : time < 1.45 ? 2 : time < 2.05 ? 3 : 4;
+      if (step === lastStep) return;
+      lastStep = step;
+      const showPlan = step === 4;
+      demoTitle.textContent = showPlan ? 'Critical activity review' : 'Set vendor risk options';
+      demoTitle.classList.toggle('hero-demo-plan', showPlan);
+      demoRows.forEach((row, index) => {
+        row.querySelector('b').textContent = showPlan ? planLabels[index] : inputLabels[index];
+        row.querySelector('span').textContent = showPlan ? planValues[index] : index < step ? selectedValues[index] : initialValues[index];
+        row.classList.toggle('selected', !showPlan && step === index + 1);
+      });
+      demoAction.hidden = showPlan;
+    }
+
+    heroVideo.addEventListener('timeupdate', updateDemo);
+    updateDemo();
   </script>
 </figure></section><section class="summary"><p class="eyebrow">THE WORKFLOW</p><h2>From regulatory guidance to program controls</h2><div class="grid"><article><h3>Define your program</h3><p>Set ownership, identify third-party relationships, and decide how to prioritize reviews by risk.</p></article><article><h3>Build due diligence and contracting</h3><p>Translate expectations into evidence requests, approval steps, and contract provisions that reflect the relationship’s risk.</p></article><article><h3>Plan ongoing monitoring</h3><p>Set review intervals, define escalation triggers, and document how your team responds to incidents and material changes.</p></article></div></section><section class="summary" aria-labelledby="guidance-heading">
   <h2 id="guidance-heading">Interagency guidance for banks</h2>
