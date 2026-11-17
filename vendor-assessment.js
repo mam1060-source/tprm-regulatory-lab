@@ -9,27 +9,36 @@ function updatePlan(event) {
   event?.preventDefault();
   const selected = new FormData(form);
   const restricted = selected.get('data') === 'restricted';
-  const critical = selected.get('criticality') === 'critical';
-  const dependent = selected.get('dependency') === 'limited';
-  const usesAi = selected.get('ai') === 'enabled';
+  const impact = selected.get('criticality');
+  const critical = impact === 'high';
+  const moderate = impact === 'moderate';
+  const sensitive = selected.get('data') === 'sensitive';
+  const dependent = selected.get('dependency') !== 'available';
+  const aiUse = selected.get('ai');
+  const usesAi = aiUse !== 'none';
+  const autonomy = form.elements.autonomy.value;
 
   const drivers = [
-    critical && 'interruption of a critical activity',
+    critical && 'high impact from disruption',
+    moderate && 'moderate impact from disruption',
+    sensitive && 'access to business-sensitive information',
     restricted && 'access to restricted customer data',
-    dependent && 'limited alternatives and a shared subcontractor'
+    dependent && (selected.get('dependency') === 'sole' ? 'sole-source dependency' : 'limited substitutes')
   ].filter(Boolean);
   plan.textContent = critical ? 'Critical activity review' : drivers.length ? 'Enhanced due diligence' : 'Standard vendor review';
   rationale.textContent = drivers.length
     ? 'Review priorities: ' + drivers.join(', ') + '.'
-    : 'The service supports an internal workflow, uses internal data, and has a tested alternative.';
+    : 'The service supports an internal workflow, uses public data, and has a tested alternative.';
 
   const steps = [
     ['Planning', critical
       ? 'Document customer and operational impact, maximum tolerable downtime, recovery objectives, and who approves the relationship.'
       : 'Identify the business owner, document the workflow and its data classification, and confirm the impact of a service interruption.'],
     ['Due diligence and selection', [
-      restricted ? 'Request a data-flow diagram and evidence of encryption, access restrictions, retention, and deletion.' : 'Verify that access is limited to approved internal documents.',
+      restricted ? 'Request a data-flow diagram and evidence of encryption, access restrictions, retention, and deletion.' : sensitive ? 'Verify role-based access, staff confidentiality obligations, and controls on sharing business-sensitive documents.' : 'Confirm that inputs and integrations are limited to publicly available information.',
+      moderate && 'Review service capacity and evidence of backup and restoration testing.',
       critical && 'Review financial condition, capacity, and recovery test results against the bank’s recovery objectives.',
+      selected.get('dependency') === 'sole' && 'Evaluate an in-house fallback and quantify the cost and time to replace the service.',
       dependent && 'Identify material subcontractors and shared infrastructure. Assess concentration and how long migration would take.'
     ].filter(Boolean).join(' ')],
     ['Contract negotiation', [
@@ -50,11 +59,20 @@ function updatePlan(event) {
   ];
 
   if (usesAi) {
-    steps.push(['Supplemental AI review', (restricted
+    const useCheck = aiUse === 'workflow'
+      ? 'Test actions against approved permissions and verify that staff can reverse errors. '
+      : 'Check outputs against source documents for omissions, distortions, and unsupported claims. ';
+    const oversight = {
+      advisory: 'Keep decisions and actions with staff. Limit the feature to advisory outputs.',
+      approval: 'Require a qualified reviewer to approve each proposed action before execution.',
+      monitored: 'Set intervention thresholds and test the operator’s ability to override or halt actions.',
+      autonomous: 'Define permitted actions and limits, log execution, and test suspension and recovery before deployment.'
+    };
+    steps.push(['Supplemental AI review', useCheck + (restricted
       ? 'Verify whether the AI provider retains restricted inputs or uses them for training. '
       : 'Limit the feature to approved internal content. ') + (critical
       ? 'Test fallback with AI disabled and check whether inaccurate summaries could delay the critical workflow. '
-      : 'Sample summaries for omissions and invented facts. ') + 'Assign staff to review outputs and reassess after model changes.', aiFramework]);
+      : 'Sample summaries for omissions and invented facts. ') + oversight[autonomy] + ' Reassess after material model changes.', aiFramework]);
   }
 
   actions.replaceChildren(...steps.flatMap(([label, detail, source = guidance]) => {
@@ -69,5 +87,13 @@ function updatePlan(event) {
   }));
 }
 
+function syncAiControls() {
+  const enabled = form.elements.ai.value !== 'none';
+  form.elements.autonomy.disabled = !enabled;
+  if (!enabled) form.elements.autonomy.value = 'na';
+  else if (form.elements.autonomy.value === 'na') form.elements.autonomy.value = 'advisory';
+}
+form.elements.ai.addEventListener('change', syncAiControls);
 form.addEventListener('submit', updatePlan);
+syncAiControls();
 updatePlan();
