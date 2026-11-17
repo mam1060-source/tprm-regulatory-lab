@@ -5,7 +5,25 @@
 }
 .hero-film { margin: 0; min-width: 0; }
 .hero-film-stage { position: relative; }
-.hero-film-cue { position: absolute; inset: auto 12px 12px; width: fit-content; max-width: calc(100% - 24px); padding: .5rem .75rem; background: #102442; color: white; border-radius: 5px; font-size: clamp(.85rem, 1.4vw, 1rem); font-weight: 700; }
+.hero-film-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 24px);
+  box-sizing: border-box;
+  padding: .55rem .9rem;
+  background: #082344;
+  color: #fff;
+  border: 1px solid #92bde9;
+  border-radius: 6px;
+  box-shadow: 0 3px 12px #0005;
+  font-size: clamp(.9rem, 1.65vw, 1.14rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
 .hero-film video { aspect-ratio: 16 / 9; object-fit: contain; filter: none; border-radius: 8px; }
 .hero-film figcaption { margin-top: .65rem; color: #405875; font-size: .9rem; }
 </style><style>
