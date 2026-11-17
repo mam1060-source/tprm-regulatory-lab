@@ -23,8 +23,8 @@
 </style></head>
 <body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html?v=chat-view">Vendor review</a><a href="#chat">TPRM assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1>Build your third-party risk program.</h1><p>Interpret third-party risk management guidance and turn it into practical policies, controls, and review steps for your financial institution.</p><a class="button" href="review.html?v=chat-view">Try the vendor review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
   <div class="hero-film-stage">
-    <video autoplay muted loop playsinline aria-label="Bank risk professionals reviewing a third-party provider"><source src="tprm-vendor-review.mp4" type="video/mp4"></video>
-    <div class="hero-film-cue" aria-hidden="true">Identify the vendor’s risks</div>
+    <video autoplay muted loop playsinline aria-label="Animated risk inputs feed into a vendor review checklist"><source src="tprm-workflow.mp4" type="video/mp4"></video>
+    <div class="hero-film-cue" aria-hidden="true">Assess data, impact, and alternatives</div>
   </div>
   <figcaption>Assess data sensitivity and business impact, then turn the findings into a vendor review plan with evidence requests and controls.</figcaption>
   <script>
@@ -32,9 +32,9 @@
     const heroCue = document.querySelector('.hero-film-cue');
     heroVideo.addEventListener('timeupdate', () => {
       const progress = heroVideo.currentTime / heroVideo.duration;
-      const cue = progress < 1 / 3 ? 'Identify the vendor’s risks'
-        : progress < 2 / 3 ? 'Match risks to interagency guidance'
-        : 'Build a tailored review plan';
+      const cue = progress < 1 / 3 ? 'Assess data, impact, and alternatives'
+        : progress < 2 / 3 ? 'Apply interagency guidance'
+        : 'Get a tailored review checklist';
       if (heroCue.textContent !== cue) heroCue.textContent = cue;
     });
   </script>
