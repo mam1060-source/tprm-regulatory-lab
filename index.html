@@ -42,7 +42,17 @@
   </details>
   </div>
   <div class="assistant-panel">
-  <iframe title="TPRM guidance assistant" loading="lazy" src="https://share.chatling.ai/s/bdZsndnXXYo1NCs"></iframe>
+  <button type="button" class="button" id="open-assistant">Open assistant</button>
+  <script>
+    const launcher = document.getElementById('open-assistant');
+    launcher.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.title = 'TPRM guidance assistant';
+      frame.src = 'https://share.chatling.ai/s/bdZsndnXXYo1NCs';
+      launcher.replaceWith(frame);
+      frame.focus({ preventScroll: true });
+    }, { once: true });
+  </script>
   <p><a href="https://share.chatling.ai/s/bdZsndnXXYo1NCs" target="_blank" rel="noopener">Open the assistant in a new tab ↗</a></p>
   </div>
 </section></main><footer><p><strong>Interactive vendor review.</strong> Compare how data classification, business criticality, provider substitutability, and optional AI use change the evidence and controls in a vendor review.</p><p>TPRM Regulatory</p></footer></body></html>
