@@ -22,13 +22,13 @@ function updatePlan(event) {
     critical && 'high impact from disruption',
     moderate && 'moderate impact from disruption',
     sensitive && 'access to business-sensitive information',
-    restricted && 'access to restricted customer data',
+    restricted && 'access to confidential data or PII',
     dependent && (selected.get('dependency') === 'sole' ? 'sole-source dependency' : 'limited substitutes')
   ].filter(Boolean);
   plan.textContent = critical ? 'Critical activity review' : drivers.length ? 'Enhanced due diligence' : 'Standard vendor review';
   rationale.textContent = drivers.length
     ? 'Review priorities: ' + drivers.join(', ') + '.'
-    : 'The service supports an internal workflow, uses public data, and has a tested alternative.';
+    : 'The scenario combines public data, low business impact, and multiple viable providers.';
 
   const steps = [
     ['Planning', critical
@@ -39,7 +39,7 @@ function updatePlan(event) {
       moderate && 'Review service capacity and evidence of backup and restoration testing.',
       critical && 'Review financial condition, capacity, and recovery test results against the bank’s recovery objectives.',
       selected.get('dependency') === 'sole' && 'Evaluate an in-house fallback and quantify the cost and time to replace the service.',
-      dependent && 'Identify material subcontractors and shared infrastructure. Assess concentration and how long migration would take.'
+      dependent && 'Identify material subcontractors and shared infrastructure. Assess concentration risk and estimate migration time.'
     ].filter(Boolean).join(' ')],
     ['Contract negotiation', [
       restricted ? 'Address permitted data use, incident notice, audit access, and data return or deletion.' : 'Define permitted access, service scope, and incident reporting.',
@@ -52,7 +52,7 @@ function updatePlan(event) {
       dependent && 'Reassess dependency when providers or hosting arrangements change.'
     ].filter(Boolean).join(' ')],
     ['Termination', [
-      critical ? 'Test switching to the fallback process and reconciling outstanding work.' : 'Document migration steps and confirm the replacement can take over.',
+      critical ? 'Test the transition to the fallback process and reconcile outstanding work.' : 'Document migration steps and confirm the replacement can take over.',
       dependent && 'Test data export and estimate time to onboard a substitute.',
       restricted && 'Verify return or deletion of restricted data and revocation of access.'
     ].filter(Boolean).join(' ')]
@@ -61,7 +61,7 @@ function updatePlan(event) {
   if (usesAi) {
     const useCheck = aiUse === 'workflow'
       ? 'Test actions against approved permissions and verify that staff can reverse errors. '
-      : 'Check outputs against source documents for omissions, distortions, and unsupported claims. ';
+      : 'Compare outputs with source documents for omissions, inaccuracies, and unsupported claims. ';
     const oversight = {
       advisory: 'Keep decisions and actions with staff. Limit the feature to advisory outputs.',
       approval: 'Require a qualified reviewer to approve each proposed action before execution.',
@@ -72,7 +72,7 @@ function updatePlan(event) {
       ? 'Verify whether the AI provider retains restricted inputs or uses them for training. '
       : 'Limit the feature to approved internal content. ') + (critical
       ? 'Test fallback with AI disabled and check whether inaccurate summaries could delay the critical workflow. '
-      : 'Sample summaries for omissions and invented facts. ') + oversight[autonomy] + ' Reassess after material model changes.', aiFramework]);
+      : 'Test the feature against representative production scenarios. ') + oversight[autonomy] + ' Reassess after material model changes.', aiFramework]);
   }
 
   actions.replaceChildren(...steps.flatMap(([label, detail, source = guidance]) => {
