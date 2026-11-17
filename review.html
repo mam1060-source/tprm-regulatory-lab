@@ -37,16 +37,15 @@
   </details>
   </div>
   <div class="assistant-panel">
-  <button type="button" class="button" id="open-assistant">Open assistant</button>
+  <iframe id="assistant-frame" title="TPRM guidance assistant" data-src="https://share.chatling.ai/s/bdZsndnXXYo1NCs"></iframe>
   <script>
-    const launcher = document.getElementById('open-assistant');
-    launcher.addEventListener('click', () => {
-      const frame = document.createElement('iframe');
-      frame.title = 'TPRM guidance assistant';
-      frame.src = 'https://share.chatling.ai/s/bdZsndnXXYo1NCs';
-      launcher.replaceWith(frame);
-      frame.focus({ preventScroll: true });
-    }, { once: true });
+    const assistantFrame = document.getElementById('assistant-frame');
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      if (entry.intersectionRatio < 0.5) return;
+      visibilityObserver.disconnect();
+      assistantFrame.src = assistantFrame.dataset.src;
+    }, { threshold: 0.5 });
+    visibilityObserver.observe(assistantFrame);
   </script>
   <p><a href="https://share.chatling.ai/s/bdZsndnXXYo1NCs" target="_blank" rel="noopener">Open the assistant in a new tab ↗</a></p>
   </div>
