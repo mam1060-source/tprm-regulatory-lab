@@ -10,10 +10,6 @@ const occFramework = {
   label: 'OCC Super Intelligence framework',
   url: 'https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-97a.pdf'
 };
-const proposal = {
-  label: '2026 interagency TPRM proposal',
-  url: 'https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-46.html'
-};
 
 const scenarios = {
   'synthetic:draft': {
@@ -50,19 +46,18 @@ function updatePlan(event) {
   plan.textContent = scenario.title;
 
   const steps = [
-    ['Planning and scope', scenario.planning, finalGuidance],
-    ['Due diligence and evidence', data === 'customer'
-      ? 'Request data-flow and access records, a list of model providers and subprocessors, and evidence of limits on retention and secondary use.'
-      : 'Request proof of sandbox isolation and synthetic data provenance. Document which vendor systems and subprocessors the pilot uses.', finalGuidance],
-    ['AI testing and human oversight', scenario.testing, occFramework, ' §§ 2.3, 2.10, 2.13'],
-    ['Contract and change controls', data === 'customer'
-      ? 'Consider limits on data use, incident notification, responsibility for customer harm, and notice before model or subprocessor changes.'
-      : 'Document the test-only scope, access restrictions, incident reporting, change notice, and deletion at pilot close.', occFramework, ' § 2.9'],
-    ['Monitoring and escalation', scenario.monitoring, occFramework, ' §§ 2.10, 2.12'],
-    ['Exit and continuity', role === 'route'
+    ['Planning', scenario.planning, finalGuidance],
+    ['Due diligence and selection', data === 'customer'
+      ? 'Request data-flow and access records, a list of providers and subprocessors, and evidence of limits on retention and secondary use.'
+      : 'Request proof of sandbox isolation and synthetic data provenance. Verify which systems and subprocessors the pilot uses.', finalGuidance],
+    ['Contract negotiation', data === 'customer'
+      ? 'Evaluate terms for use and deletion of customer data, incident notice, audit access, subcontractor changes, and responsibility for losses.'
+      : 'Document the test-only scope, permitted access, incident reporting, change notice, and deletion at pilot close.', finalGuidance],
+    ['Ongoing monitoring', scenario.monitoring, finalGuidance],
+    ['Termination', role === 'route'
       ? 'Show how the bank disables vendor access, returns cases to staff queues, reconciles outstanding cases, and confirms data return or deletion.'
       : 'Revoke vendor access, close the integration, and confirm data deletion. Preserve review evidence according to bank policy.', finalGuidance],
-    ['2026 proposal watch', 'Track the proposal’s approach to tailoring oversight to the risk of each relationship. The proposal is pending.', proposal]
+    ['Supplemental AI testing and oversight', scenario.testing, occFramework, ' §§ 2.3, 2.10, 2.13']
   ];
 
   actions.replaceChildren(...steps.flatMap(([label, detail, source, section = '']) => {
