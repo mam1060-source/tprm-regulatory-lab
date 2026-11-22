@@ -28,15 +28,14 @@
 }
 </style></head>
 <body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html" >Vendor Review</a><a href="#chat" >TPRM Assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1 >Build Your Third-Party Risk Program</h1><p>Translate interagency guidance into third-party risk policies, controls, and oversight procedures for your financial institution.</p><a class="button" href="review.html" >Open the Vendor Review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
-  <video controls autoplay muted loop playsinline aria-label="Animated risk inputs feed into a vendor review checklist"><source src="tprm-workflow.mp4" type="video/mp4"></video>
+  <video controls autoplay muted loop playsinline preload="auto" aria-label="AI-generated cinematic reveal of a bank and its interconnected service providers"><source src="tprm-clarity.mp4" type="video/mp4"></video>
   <figcaption>
     <output id="hero-video-time" aria-label="Video elapsed time and duration" aria-live="off" style="display:block;margin-bottom:.35rem;font-variant-numeric:tabular-nums">0:00.0 / — · Loop</output>
-    <span class="hero-film-cue" aria-hidden="true" >1. Assess Vendor Risk</span>
-    Use interagency guidance to scope due diligence, define evidence requests, and prioritize controls based on vendor risk.
+    <span class="hero-film-cue">Bring Clarity to Third-Party Risk</span>
+    Reveal vendor dependencies, assess their impact, and translate interagency guidance into a tailored review plan.
   </figcaption>
   <script>
     const heroVideo = document.querySelector('.hero-film video');
-    const heroCue = document.querySelector('.hero-film-cue');
     const heroTime = document.getElementById('hero-video-time');
 
     function formatVideoTime(seconds) {
@@ -49,11 +48,6 @@
     function updateVideoDisplay() {
       if (!Number.isFinite(heroVideo.duration) || heroVideo.duration <= 0) return;
       heroTime.textContent = `${formatVideoTime(heroVideo.currentTime)} / ${formatVideoTime(heroVideo.duration)} · Loop`;
-      const progress = heroVideo.currentTime / heroVideo.duration;
-      const cue = progress < 1 / 3 ? '1. Assess Vendor Risk'
-        : progress < 2 / 3 ? '2. Apply Interagency Guidance'
-        : '3. Build a Risk-Based Review Plan';
-      if (heroCue.textContent !== cue) heroCue.textContent = cue;
     }
 
     heroVideo.addEventListener('loadedmetadata', updateVideoDisplay);
