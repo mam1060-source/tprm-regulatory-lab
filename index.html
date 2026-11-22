@@ -4,6 +4,23 @@
   .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(28px, 3.5vw, 48px); }
 }
 .hero-film { margin: 0; min-width: 0; }
+.hero-video-stage { position: relative; container-type: inline-size; }
+.hero-video-message {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 46px;
+  padding: 1.4rem .8rem .55rem;
+  background: linear-gradient(transparent, rgba(3, 14, 29, .94));
+  color: #fff;
+  text-align: center;
+  pointer-events: none;
+  font-size: clamp(12px, 3cqw, 20px);
+  font-weight: 700;
+  line-height: 1.3;
+  text-shadow: 0 1px 4px #000;
+}
+.hero-film .button { display: inline-block; margin-top: .9rem; }
 .hero-film-cue {
   display: block;
   margin-bottom: .25rem;
@@ -28,11 +45,14 @@
 }
 </style></head>
 <body><header><a class="brand" href="./">TPRM<span> / </span>Regulatory</a><nav aria-label="Main navigation"><a href="review.html" >Vendor Review</a><a href="#chat" >TPRM Assistant</a></nav></header><main><section class="hero"><div><p class="eyebrow">THIRD-PARTY RISK MANAGEMENT</p><h1 >Build Your Third-Party Risk Program</h1><p>Translate interagency guidance into third-party risk policies, controls, and oversight procedures for your financial institution.</p><a class="button" href="review.html" >Open the Vendor Review <span aria-hidden="true">→</span></a></div><figure class="hero-film">
-  <video controls autoplay muted loop playsinline preload="auto" aria-label="AI-generated cinematic reveal of a bank and its interconnected service providers"><source src="tprm-usa-bank.mp4" type="video/mp4"></video>
+  <div class="hero-video-stage">
+    <video controls autoplay muted loop playsinline preload="auto" aria-label="AI-generated cinematic reveal of USA Bank and its vendor network. Every connection carries risk. Bring it into focus."><source src="tprm-usa-bank.mp4" type="video/mp4"></video>
+    <div class="hero-video-message" aria-hidden="true">Every Connection Carries Risk.<br>Bring It Into Focus.</div>
+  </div>
   <figcaption>
     <output id="hero-video-time" aria-label="Video elapsed time and duration" aria-live="off" style="display:block;margin-bottom:.35rem;font-variant-numeric:tabular-nums">0:00.0 / — · Loop</output>
-    <span class="hero-film-cue">Bring Clarity to Third-Party Risk</span>
-    Reveal vendor dependencies, assess their impact, and translate interagency guidance into a tailored review plan.
+    Understand your vendor dependencies. Assess data sensitivity, business criticality, and substitutability. Turn interagency guidance into a tailored review plan.
+    <a class="button" href="review.html?v=title-case">Build Your Vendor Review Plan <span aria-hidden="true">→</span></a>
   </figcaption>
   <script>
     const heroVideo = document.querySelector('.hero-film video');
